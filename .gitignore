@@ -1,0 +1,12 @@
+data/chromadb/
+models/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+*.egg-info/
+dist/
+build/
+.env
+wandb/
+*.png
+fig*.png

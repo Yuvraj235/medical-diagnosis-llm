@@ -1,0 +1,93 @@
+# ============================================
+# Medical Diagnosis LLM - Configuration
+# ============================================
+
+# --- Data ---
+data:
+  dataset_name: "qiaojin/PubMedQA"
+  labeled_split: "pqa_labeled"
+  artificial_split: "pqa_artificial"
+  unlabeled_split: "pqa_unlabeled"
+  train_ratio: 0.6
+  val_ratio: 0.2
+  test_ratio: 0.2
+  max_context_length: 512
+  seed: 42
+
+# --- Embeddings ---
+embeddings:
+  model_name: "microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract-fulltext"
+  chunk_size: 256
+  chunk_overlap: 50
+  batch_size: 64
+
+# --- Vector Database ---
+vector_db:
+  collection_name: "pubmedqa_knowledge_base"
+  persist_directory: "./data/chromadb"
+  distance_metric: "cosine"
+
+# --- Retriever ---
+retriever:
+  top_k: 5
+  similarity_threshold: 0.3
+  use_mmr: true
+  mmr_lambda: 0.7
+
+# --- LLM ---
+llm:
+  base_model: "BioMistral/BioMistral-7B"
+  max_new_tokens: 256
+  temperature: 0.1
+  top_p: 0.9
+  repetition_penalty: 1.15
+
+# --- LoRA ---
+lora:
+  r: 16
+  alpha: 32
+  dropout: 0.05
+  target_modules:
+    - "q_proj"
+    - "v_proj"
+    - "k_proj"
+    - "o_proj"
+  bias: "none"
+  task_type: "CAUSAL_LM"
+
+# --- Training ---
+training:
+  num_epochs: 3
+  batch_size: 4
+  gradient_accumulation_steps: 4
+  learning_rate: 2.0e-4
+  weight_decay: 0.01
+  warmup_ratio: 0.03
+  max_seq_length: 1024
+  logging_steps: 50
+  save_steps: 500
+  eval_steps: 500
+  output_dir: "./models/biomistral-lora"
+  fp16: false
+  bf16: true
+
+# --- Guardrails ---
+guardrails:
+  confidence_threshold: 0.3
+  hallucination_overlap_threshold: 0.15
+  medical_keywords:
+    - "disease"
+    - "treatment"
+    - "patient"
+    - "clinical"
+    - "drug"
+    - "symptom"
+    - "diagnosis"
+    - "therapy"
+    - "medical"
+    - "health"
+    - "hospital"
+    - "surgery"
+    - "cancer"
+    - "infection"
+  disclaimer: "DISCLAIMER: This is AI-generated content for research purposes only. It is NOT medical advice. Always consult a qualified healthcare professional for medical decisions."
