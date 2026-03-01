@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+*.so
+
+# Environments
+.env
+.venv
+env/
+venv/
+
+# Data (large files)
+data/pubmedqa/
+data/index/
+
+# Model weights
+models/checkpoints/
+*.bin
+*.pt
+*.pth
+*.safetensors
+
+# Results (keep structure, not outputs)
+results/eval_*.json
+results/plots_*/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
