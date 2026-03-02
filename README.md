@@ -46,6 +46,8 @@ User Question
 
 ## Quantitative Results (100 samples — PubMedQA test set)
 
+![Metrics Table](results/figures/metrics_table.png)
+
 ### Classification
 
 | Metric | Score |
