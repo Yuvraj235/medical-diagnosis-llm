@@ -27,9 +27,13 @@ models/checkpoints/
 *.pth
 *.safetensors
 
-# Results (keep structure, not outputs)
+# Results (keep structure, not timestamped outputs)
 results/eval_*.json
 results/plots_*/
+
+# Keep dissertation figures tracked
+!results/figures/
+!results/figures/*.png
 
 # Jupyter
 .ipynb_checkpoints/
