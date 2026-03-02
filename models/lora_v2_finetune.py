@@ -1,19 +1,20 @@
 # -*- coding: utf-8 -*-
 """
 models/lora_v2_finetune.py
-Improved LoRA v2 — targeting 70%+ accuracy on PubMedQA.
+LoRA v2 — GOLD STANDARD configuration for 70%+ accuracy on PubMedQA.
 
-Key improvements over v1:
+Key improvements:
   1. CORRECT Microsoft training format (question: {q} context: {ctx} the answer ...)
-  2. Class-weighted loss  (MAYBE upweighted 4x — fixes 0% MAYBE recall)
-  3. All 700 training samples with weights (vs 150 balanced)
-  4. r=8, alpha=16 (2x more expressive adapters)
-  5. 4 LoRA targets: q_proj, v_proj, k_proj, out_proj
-  6. 5 epochs with early stopping (patience=2)
-  7. MAX_LEN=512 (handles longer Microsoft format prompts)
-  8. LR=1e-4, GRAD_ACCUM=4
+  2. MAX_LEN=1024 (NO truncation — label is always the last token, clean signal)
+  3. Safety check: skip any sample where label token was not the last token
+  4. Class-weighted loss  (MAYBE upweighted 4x — fixes 0% MAYBE recall)
+  5. All 700 training samples with weights (vs 150 balanced)
+  6. r=8, alpha=16 (2x more expressive adapters)
+  7. 4 LoRA targets: q_proj, v_proj, k_proj, out_proj
+  8. 5 epochs with early stopping (patience=2)
+  9. LR=1e-4, GRAD_ACCUM=4
 
-Expected runtime: ~2 hours on Apple Silicon CPU
+Expected runtime: ~8-12 hours on Apple Silicon CPU (full context, no shortcuts)
 Expected accuracy: 70%+  (baseline with correct format already = 65.3%)
 
 Run:
@@ -33,10 +34,10 @@ LORA_OUT   = os.path.join(MODEL_DIR, "lora_v2_best")
 MODEL_NAME = "microsoft/BioGPT-Large-PubMedQA"
 
 # ── Hypers ───────────────────────────────────────────────────────────────────
-MAX_LEN       = 512   # Microsoft format has longer prompts; truncation handles overflow
+MAX_LEN       = 1024  # GOLD STANDARD: no truncation — label always at position [-1]
 BATCH_SIZE    = 1
 GRAD_ACCUM    = 4     # effective batch = 4
-LEARNING_RATE = 1e-4  # slightly lower for larger r
+LEARNING_RATE = 1e-4
 N_EPOCHS      = 5
 LOG_EVERY     = 20
 EVAL_EVERY    = 50
@@ -54,7 +55,11 @@ TARGET_PREFIX = "the answer to the question given the context is "
 
 
 def build_prompt(rec, include_label=True):
-    """Exact Microsoft BioGPT-PubMedQA training format."""
+    """Exact Microsoft BioGPT-PubMedQA training format.
+
+    Full 1800-char context — matches evaluation format exactly.
+    MAX_LEN=1024 ensures no truncation and label is always the last token.
+    """
     ctx = re.sub(r'\s+', ' ', rec.get("context", "").strip())[:1800]
     q   = rec.get("question", "").strip()
     base = f"question: {q} context: {ctx} {TARGET_PREFIX}"
@@ -204,6 +209,13 @@ def run_finetune():
                             return_tensors="pt")
             input_ids = enc["input_ids"][0].to(device)
             attn_mask = enc["attention_mask"][0].to(device)
+
+            # GOLD STANDARD safety check: ensure label token is the last token
+            # (would be violated if sequence was truncated, corrupting training signal)
+            expected_label_id = label_tokens[label]
+            if input_ids[-1].item() != expected_label_id:
+                global_step += 1
+                continue  # skip truncated samples — never poison gradients
 
             # Loss on last token only (the label token)
             labels = torch.full_like(input_ids, -100)
