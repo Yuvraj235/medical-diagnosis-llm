@@ -1,0 +1,63 @@
+{
+  "method": "lora_v2_calibrated",
+  "best_bias": {
+    "yes": 0.0,
+    "no": 1.0,
+    "maybe": 0.75
+  },
+  "best_val_acc": 0.7533,
+  "n_test": 150,
+  "raw": {
+    "accuracy": 0.6533,
+    "f1_macro": 0.4957,
+    "pred_dist": {
+      "yes": 95,
+      "no": 51,
+      "maybe": 4
+    },
+    "per_class": {
+      "yes": {
+        "precision": 0.6526,
+        "recall": 0.8267,
+        "f1": 0.7294
+      },
+      "no": {
+        "precision": 0.6863,
+        "recall": 0.6863,
+        "f1": 0.6863
+      },
+      "maybe": {
+        "precision": 0.25,
+        "recall": 0.0417,
+        "f1": 0.0714
+      }
+    }
+  },
+  "cal": {
+    "accuracy": 0.6533,
+    "f1_macro": 0.5471,
+    "pred_dist": {
+      "yes": 82,
+      "no": 59,
+      "maybe": 9
+    },
+    "per_class": {
+      "yes": {
+        "precision": 0.6951,
+        "recall": 0.76,
+        "f1": 0.7261
+      },
+      "no": {
+        "precision": 0.6271,
+        "recall": 0.7255,
+        "f1": 0.6727
+      },
+      "maybe": {
+        "precision": 0.4444,
+        "recall": 0.1667,
+        "f1": 0.2424
+      }
+    }
+  },
+  "avg_latency_ms": 1437.5
+}

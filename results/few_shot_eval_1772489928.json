@@ -1,0 +1,31 @@
+{
+  "method": "3_shot_in_context_learning",
+  "n_shots": 3,
+  "n_samples": 150,
+  "accuracy": 0.5333,
+  "f1_macro": 0.3336,
+  "f1_weighted": 0.4501,
+  "per_class": {
+    "yes": {
+      "precision": 0.5476,
+      "recall": 0.92,
+      "f1": 0.6866
+    },
+    "no": {
+      "precision": 0.5789,
+      "recall": 0.2157,
+      "f1": 0.3143
+    },
+    "maybe": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    }
+  },
+  "pred_dist": {
+    "yes": 126,
+    "no": 19,
+    "maybe": 5
+  },
+  "avg_latency_ms": 5630.6
+}
