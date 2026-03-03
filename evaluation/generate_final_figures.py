@@ -32,13 +32,13 @@ METHODS = {
         "acc": 0.4867, "f1m": 0.3566,
         "yes_f1": 0.5286, "no_f1": 0.5414, "maybe_f1": 0.000,
         "yes_r": 0.4933, "no_r": 0.7059, "maybe_r": 0.000,
-        "pred": {"yes": 73, "no": 75, "maybe": 2},
+        "pred": {"yes": 65, "no": 82, "maybe": 3},
     },
     "Zero-shot\n(correct fmt)": {
-        "acc": 0.6533, "f1m": 0.4797,
-        "yes_f1": 0.7160, "no_f1": 0.7027, "maybe_f1": 0.000,
-        "yes_r": 0.8800, "no_r": 0.6667, "maybe_r": 0.000,
-        "pred": {"yes": 100, "no": 50, "maybe": 0},
+        "acc": 0.6533, "f1m": 0.480,
+        "yes_f1": 0.736, "no_f1": 0.704, "maybe_f1": 0.000,
+        "yes_r": 0.800, "no_r": 0.745, "maybe_r": 0.000,
+        "pred": {"yes": 88, "no": 57, "maybe": 5},
     },
     "3-Shot ICL": {
         "acc": 0.5333, "f1m": 0.3336,
@@ -163,7 +163,7 @@ def fig_perclass_f1():
 # ─────────────────────────────────────────────────────────────────────────────
 def fig_calibration_effect():
     labels = ["YES F1", "NO F1", "MAYBE F1", "F1 Macro", "Accuracy"]
-    zero   = [0.716, 0.703, 0.000, 0.480, 0.653]
+    zero   = [0.736, 0.704, 0.000, 0.480, 0.653]
     raw    = [0.729, 0.686, 0.071, 0.496, 0.653]
     cal    = [0.726, 0.673, 0.242, 0.547, 0.653]
 
@@ -297,7 +297,7 @@ def fig_maybe_recall():
 def fig_baseline_vs_finetuned():
     """Grouped bar: zero-shot vs LoRA v2 vs LoRA v2 + calibration."""
     metrics = ["Accuracy", "F1 Macro", "YES F1", "NO F1", "MAYBE F1"]
-    z_vals  = [0.6533, 0.4797, 0.716, 0.703, 0.000]
+    z_vals  = [0.6533, 0.480, 0.736, 0.704, 0.000]
     l_vals  = [0.6533, 0.4957, 0.729, 0.686, 0.071]
     c_vals  = [0.6533, 0.5471, 0.726, 0.673, 0.242]
 

@@ -61,7 +61,7 @@ All results are **genuine model runs** on 150 held-out PubMedQA test samples.
 | BioGPT-Large (old format, orig ctx) | 48.7 % | 0.357 | 0.529 | 0.541 | 0.000 | baseline |
 | BioGPT-Large (old format, RAG) | 43.3 % | 0.316 | 0.493 | 0.456 | 0.000 | baseline |
 | BioGPT-Large + LoRA v1 (old format, RAG) | 47.3 % | 0.333 | 0.595 | 0.404 | 0.000 | LoRA r=4 |
-| BioGPT-Large + Correct MS Format | 65.3 % | 0.480 | 0.716 | 0.703 | 0.000 | format fix! |
+| BioGPT-Large + Correct MS Format | 65.3 % | 0.480 | 0.736 | 0.704 | 0.000 | format fix! |
 | 3-Shot In-Context Learning | 53.3 % | 0.334 | 0.687 | 0.314 | 0.000 | few-shot |
 | LoRA v2 fine-tuned (raw) | 65.3 % | 0.496 | 0.729 | 0.686 | 0.071 | better F1 |
 | **★ LoRA v2 + Per-class Calibration** | **65.3 %** | **0.547** | **0.726** | **0.673** | **0.242** | **best overall** |
@@ -91,8 +91,8 @@ All results are **genuine model runs** on 150 held-out PubMedQA test samples.
 | **Accuracy** | **65.3 %** |
 | F1 Macro | 0.480 |
 | F1 Weighted | 0.607 |
-| YES — Precision / Recall / F1 | 0.682 / 0.880 / **0.716** |
-| NO — Precision / Recall / F1 | 0.667 / 0.745 / **0.703** |
+| YES — Precision / Recall / F1 | 0.682 / 0.800 / **0.736** |
+| NO — Precision / Recall / F1 | 0.667 / 0.745 / **0.704** |
 | MAYBE — Precision / Recall / F1 | 0.000 / 0.000 / 0.000 |
 | Avg Latency | 2 244 ms |
 | Prompt format | `question: {q} context: {ctx} the answer to the question given the context is` |
